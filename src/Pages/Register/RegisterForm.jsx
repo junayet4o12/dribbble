@@ -5,7 +5,7 @@ const RegisterForm = () => {
     return (
         <div className="w-full max-w-[500px] space-y-5">
             <h2 className="text-3xl font-extrabold ">Sign up to Dribbble</h2>
-            <ul className="text-primary">
+            <ul className="text-primary ml-5">
                 <li className="list-disc">User name has already been taken</li>
             </ul>
             <form className="space-y-5">
