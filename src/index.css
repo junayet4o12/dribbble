@@ -7,3 +7,19 @@
 * {
     font-family: "Roboto Serif", serif;
 }
+
+.boxAnimation:hover .boxImgAnimation{
+   margin-top: -70px; 
+}
+.boxImgAnimation2{
+    margin-top: -70px; 
+ }
+.boxTextAnimation{
+    transform: scaleY(0);
+ }
+.boxTextAnimation2{
+    transform: scaleY(1);
+ }
+.boxAnimation:hover .boxTextAnimation{
+    transform: scaleY(1);
+}

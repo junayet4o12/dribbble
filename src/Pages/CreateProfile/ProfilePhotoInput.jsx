@@ -6,7 +6,7 @@ const ProfilePhotoInput = () => {
     const labelStyle = 'form-control w-full max-w-xs font-bold'
     return (
 
-        <div className='space-y-7 p-10 pt-16'>
+        <div className='space-y-7'>
             <h2 className='text-3xl font-bold'>Welcome! Let's create your profile</h2>
             <p className='text-gray-600'>Let others get to know you better! You can do these later</p>
             <div className="flex gap-5">
@@ -38,7 +38,7 @@ const ProfilePhotoInput = () => {
                 </label>
             </div>
             <div className="flex gap-5 pt-5">
-                
+           
             </div>
         </div>
 
