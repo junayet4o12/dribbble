@@ -1,9 +1,36 @@
+/* eslint-disable react/prop-types */
 // import React from 'react';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import SelectCriteria from './SelectCriteria';
-const ProfilePhotoInput = () => {
+import { useRef, useState } from 'react';
+import defaultImg1 from '../../assets/defaultProfile/defaultProfile1.jpg'
+import defaultImg2 from '../../assets/defaultProfile/defaultProfile2.jpg'
+import defaultImg3 from '../../assets/defaultProfile/defaultProfile3.jpg'
+import defaultImg4 from '../../assets/defaultProfile/defaultProfile4.jpg'
+const ProfilePhotoInput = ({allImgData}) => {
+    const {formBgPlaceholder, setFormBgPlaceholder,showDefaultImg, setShowDefaultImg,formBg, setFormBg,formBgFile0, setFormBgFile0,location, setLocation} = allImgData
+    const allDefaultImages = [defaultImg1, defaultImg2, defaultImg3, defaultImg4]
     const labelStyle = 'form-control w-full max-w-xs font-bold'
+    const fileInput = useRef(null)
+    const handleFormBg = () => {
+        fileInput.current.click()
+    }
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            setFormBgPlaceholder(event.target.result);
+            setFormBgFile0(file)
+        };
+        setFormBg(reader.readAsDataURL(file))
+        // reader.readAsDataURL(file);
+    };
+    const handleDefaultImg = (img) => {
+        setFormBgPlaceholder(img)
+        
+    }
+    const handleLocation = (e) => {
+        e.preventDefault();
+        setLocation(e.target.value)
+    }
     return (
 
         <div className='space-y-7'>
@@ -15,14 +42,25 @@ const ProfilePhotoInput = () => {
                         <span className={`${labelStyle}`}>Add an avatar</span>
                     </div>
                     <div className='flex flex-wrap gap-10 items-center'>
-                        <div className=" w-28 h-28 sm:w-32 sm:h-32 rounded-full border-2 border-gray-500 border-dashed flex justify-center items-center text-2xl text-gray-500">
-                            <FontAwesomeIcon icon={fas.faCamera} />
-                            <img alt="" />
+                        <div className=" w-28 h-28 sm:w-32 sm:h-32 rounded-full border-2 border-gray-500 border-dashed flex justify-center items-center text-2xl text-gray-500 overflow-hidden bg-black">
+                            <img className='object-cover w-full h-full' src={formBgPlaceholder} alt={formBgPlaceholder} />
                         </div>
                         <div className='flex flex-col gap-5'>
-                            <button className='btn border border-black text-base bg-white w-max px-7'>Choose image</button>
-                            <input type="file" className='hidden' />
-                            <p className='text-gray-600 font-bold'> {`> Or choose one of our defaults`}</p>
+                            <p
+                                onClick={handleFormBg}
+                                className='btn border border-black text-base bg-white w-max px-7 '>Choose image
+                            </p>
+                            <div className='relative'>
+                                <p onClick={() => setShowDefaultImg(true)} className='text-gray-600 font-bold cursor-pointer'> {`> Or choose one of our defaults`}</p>
+                                <div className={`transition-all duration-300 ${showDefaultImg ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0'} grid grid-cols-2 gap-2 gap-y-5 w-[210px] absolute top-7 left-14 bg-pink-200 rounded-md p-1 pt-8 pb-3`}>
+
+                                    <p onClick={() => setShowDefaultImg(false)} className='transition-all duration-300 text-black col-span-2 ml-auto cursor-pointer h-7 w-7 flex justify-center items-center text-lg font-bold rounded-md hover:bg-white absolute right-3 top-1'>X</p>
+                                    {
+                                        allDefaultImages.map((img, idx) => <img className={`transition-all duration-300 w-[67px] h-[67px] rounded-full object-cover p-0.5   cursor-pointer hover:border-[3px] hover:border-white mx-auto ${formBgPlaceholder === img ? 'border-[3px] border-white' : ''}`} key={idx} src={img} onClick={() => handleDefaultImg(img)} />)
+                                    }
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </label>
@@ -33,13 +71,21 @@ const ProfilePhotoInput = () => {
                         <span className={`${labelStyle}`}>Add your location</span>
                     </div>
                     <div>
-                        <input className='input input-bordered w-full border-x-0 border-t-0 rounded-none' type="text" placeholder='Enter a location' />
+                        <input
+                        value={location}
+                        onChange={handleLocation}
+                        className='input input-bordered input-secondary w-full border-x-0 border-t-0 rounded-none' type="text" placeholder='Enter a location' />
                     </div>
                 </label>
             </div>
             <div className="flex gap-5 pt-5">
-           
+
             </div>
+            <input
+                ref={fileInput}
+                className='hidden'
+                onChange={handleFileChange}
+                type="file" name="productImage" id="image" />
         </div>
 
 

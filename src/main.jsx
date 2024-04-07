@@ -6,11 +6,19 @@ import { Provider } from 'react-redux'
 import { store } from './Redux/store.jsx'
 import { MyRouts } from './MyRouts/MyRouts.jsx'
 import { RouterProvider } from 'react-router-dom'
+import AuthProviders from './Authentication/AuthProvider/AuthProviders.jsx'
+import { Toaster } from 'react-hot-toast'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <React.StrictMode>
-    <RouterProvider router={MyRouts} />
+      <AuthProviders>
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+        />
+        <RouterProvider router={MyRouts} />
+      </AuthProviders>
     </React.StrictMode>
   </Provider>,
 )

@@ -9,34 +9,28 @@ import boxImg3 from '../../assets/boxImg3.png'
 import { useState } from "react";
 const SelectCriteria = ({allCriteria}) => {
     const {selectFirstBox, setSelectFirstBox,selectSecondBox, setSelectSecondBox,selectThirdBox, setSelectThirdBox} = allCriteria
-    const boxStyle = 'w-full h-[350px] border-2 border-gray-500 rounded-md max-w-[350px] mx-auto boxAnimation relative cursor-pointer'
+    const boxStyle = `w-full h-[350px] border-2 border-gray-500 rounded-2xl max-w-[350px] mx-auto boxAnimation relative cursor-pointer`
     const boxImgStyle = ' transition-all duration-500 w-[calc(100%-40px)] mx-auto mt-4'
     const boxSelectDivStyle = 'w-10 h-10  rounded-full absolute bottom-5 left-[calc(50%-20px)] flex justify-center items-center'
     const boxTextStyle = 'duration-500 transition-all text-sm font-bold px-2 mt-4'
     const boxTitleStyle = 'duration-500 transition-all text-lg font-extrabold px-2 mt-4 text-center'
     console.log(allCriteria);
     const handleSelectFirstBox = () => {
-        setSelectFirstBox(true)
-        setSelectSecondBox(false)
-        setSelectThirdBox(false)
+        setSelectFirstBox(!selectFirstBox)
     }
     const handleSelectSecondBox = () => {
-        setSelectSecondBox(true)
-        setSelectFirstBox(false)
-        setSelectThirdBox(false)
+        setSelectSecondBox(!selectSecondBox)
     }
     const handleSelectThirdBox = () => {
-        setSelectThirdBox(true)
-        setSelectSecondBox(false)
-        setSelectFirstBox(false)
+        setSelectThirdBox(!selectThirdBox)
     }
     return (
         <div>
             <div className='space-y-7'>
                 <h2 className='text-3xl font-bold text-center'>What brings you to dribbble?</h2>
                 <p className='text-gray-600 text-center'>Select the options that best describe you. Don't worry, you can explore other options letter.</p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-14">
-                    <div onClick={handleSelectFirstBox} className={`${boxStyle}`}>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 gap-y-20 pt-14">
+                    <div onClick={handleSelectFirstBox} className={`${boxStyle} ${selectFirstBox ? 'border-[3px] border-primary' : 'boxImgAnimation'}`}>
                         <img className={`${boxImgStyle} ${selectFirstBox ? 'boxImgAnimation2' : 'boxImgAnimation'}`} src={boxImg1} alt="" />
                         <p className={`${boxTitleStyle}`}>
                             I'm a designer looking to share my work.
@@ -48,7 +42,7 @@ const SelectCriteria = ({allCriteria}) => {
                             <span className={`text-white ${selectFirstBox ? 'block' : 'hidden'}`}><FontAwesomeIcon icon={fas.faCheck} /></span>
                         </div>
                     </div>
-                    <div onClick={handleSelectSecondBox} className={`boxAnimation ${boxStyle}`}>
+                    <div onClick={handleSelectSecondBox} className={`boxAnimation ${boxStyle} ${selectSecondBox ? 'border-[3px] border-primary' : 'boxImgAnimation'}`}>
                         <img className={`${boxImgStyle} ${selectSecondBox ? 'boxImgAnimation2' : 'boxImgAnimation'}`} src={boxImg2} alt="" />
                         <p className={`${boxTitleStyle}`}>
                             I'm looking to hire a designer.
@@ -60,7 +54,7 @@ const SelectCriteria = ({allCriteria}) => {
                             <span className={`text-white ${selectSecondBox ? 'block' : 'hidden'}`}><FontAwesomeIcon icon={fas.faCheck} /></span>
                         </div>
                     </div>
-                    <div onClick={handleSelectThirdBox} className={`boxAnimation ${boxStyle}`}>
+                    <div onClick={handleSelectThirdBox} className={`boxAnimation ${boxStyle} ${selectThirdBox ? 'border-[3px] border-primary' : 'boxImgAnimation'}`}>
                         <img className={`${boxImgStyle} ${selectThirdBox ? 'boxImgAnimation2' : 'boxImgAnimation'}`} src={boxImg3} alt="" />
                         <p className={`${boxTitleStyle}`}>
                             I'm looking for design inspiration.
