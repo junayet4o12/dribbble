@@ -1,13 +1,10 @@
 /* eslint-disable react/prop-types */
 // import React from 'react';
 import { useRef, useState } from 'react';
-import defaultImg1 from '../../assets/defaultProfile/defaultProfile1.jpg'
-import defaultImg2 from '../../assets/defaultProfile/defaultProfile2.jpg'
-import defaultImg3 from '../../assets/defaultProfile/defaultProfile3.jpg'
-import defaultImg4 from '../../assets/defaultProfile/defaultProfile4.jpg'
+
 const ProfilePhotoInput = ({allImgData}) => {
-    const {formBgPlaceholder, setFormBgPlaceholder,showDefaultImg, setShowDefaultImg,formBg, setFormBg,formBgFile0, setFormBgFile0,location, setLocation} = allImgData
-    const allDefaultImages = [defaultImg1, defaultImg2, defaultImg3, defaultImg4]
+    const {ProfilePhotoPlaceholder, setProfilePhotoPlaceholder, showDefaultImg, setShowDefaultImg, profilePhoto, setProfilePhoto, profileFile0, setProfileFile0, location, setLocation,allDefaultImages} = allImgData
+    
     const labelStyle = 'form-control w-full max-w-xs font-bold'
     const fileInput = useRef(null)
     const handleFormBg = () => {
@@ -17,14 +14,14 @@ const ProfilePhotoInput = ({allImgData}) => {
         const file = e.target.files[0];
         const reader = new FileReader();
         reader.onload = (event) => {
-            setFormBgPlaceholder(event.target.result);
-            setFormBgFile0(file)
+            setProfilePhotoPlaceholder(event.target.result);
+            setProfileFile0(file)
         };
-        setFormBg(reader.readAsDataURL(file))
+        setProfilePhoto(reader.readAsDataURL(file))
         // reader.readAsDataURL(file);
     };
     const handleDefaultImg = (img) => {
-        setFormBgPlaceholder(img)
+        setProfilePhotoPlaceholder(img)
         
     }
     const handleLocation = (e) => {
@@ -43,7 +40,7 @@ const ProfilePhotoInput = ({allImgData}) => {
                     </div>
                     <div className='flex flex-wrap gap-10 items-center'>
                         <div className=" w-28 h-28 sm:w-32 sm:h-32 rounded-full border-2 border-gray-500 border-dashed flex justify-center items-center text-2xl text-gray-500 overflow-hidden bg-black">
-                            <img className='object-cover w-full h-full' src={formBgPlaceholder} alt={formBgPlaceholder} />
+                            <img className='object-cover w-full h-full' src={ProfilePhotoPlaceholder} alt={ProfilePhotoPlaceholder} />
                         </div>
                         <div className='flex flex-col gap-5'>
                             <p
@@ -56,7 +53,7 @@ const ProfilePhotoInput = ({allImgData}) => {
 
                                     <p onClick={() => setShowDefaultImg(false)} className='transition-all duration-300 text-black col-span-2 ml-auto cursor-pointer h-7 w-7 flex justify-center items-center text-lg font-bold rounded-md hover:bg-white absolute right-3 top-1'>X</p>
                                     {
-                                        allDefaultImages.map((img, idx) => <img className={`transition-all duration-300 w-[67px] h-[67px] rounded-full object-cover p-0.5   cursor-pointer hover:border-[3px] hover:border-white mx-auto ${formBgPlaceholder === img ? 'border-[3px] border-white' : ''}`} key={idx} src={img} onClick={() => handleDefaultImg(img)} />)
+                                        allDefaultImages.map((img, idx) => <img className={`transition-all duration-300 w-[67px] h-[67px] rounded-full object-cover p-0.5   cursor-pointer hover:border-[3px] hover:border-white mx-auto ${ProfilePhotoPlaceholder === img ? 'border-[3px] border-white' : ''}`} key={idx} src={img} onClick={() => handleDefaultImg(img)} />)
                                     }
                                 </div>
                             </div>

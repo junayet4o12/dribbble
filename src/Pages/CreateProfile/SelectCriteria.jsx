@@ -6,15 +6,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import boxImg1 from '../../assets/boxImg1.png'
 import boxImg2 from '../../assets/boxImg2.png'
 import boxImg3 from '../../assets/boxImg3.png'
-import { useState } from "react";
-const SelectCriteria = ({allCriteria}) => {
-    const {selectFirstBox, setSelectFirstBox,selectSecondBox, setSelectSecondBox,selectThirdBox, setSelectThirdBox} = allCriteria
-    const boxStyle = `w-full h-[350px] border-2 border-gray-500 rounded-2xl max-w-[350px] mx-auto boxAnimation relative cursor-pointer`
+const SelectCriteria = ({ allCriteria }) => {
+    const { selectFirstBox, setSelectFirstBox, selectSecondBox, setSelectSecondBox, selectThirdBox, setSelectThirdBox } = allCriteria
+    const boxStyle = `w-full h-[350px] border-2 border-gray-500 rounded-xl max-w-[350px] mx-auto boxAnimation relative cursor-pointer`
     const boxImgStyle = ' transition-all duration-500 w-[calc(100%-40px)] mx-auto mt-4'
     const boxSelectDivStyle = 'w-10 h-10  rounded-full absolute bottom-5 left-[calc(50%-20px)] flex justify-center items-center'
     const boxTextStyle = 'duration-500 transition-all text-sm font-bold px-2 mt-4'
     const boxTitleStyle = 'duration-500 transition-all text-lg font-extrabold px-2 mt-4 text-center'
-    console.log(allCriteria);
     const handleSelectFirstBox = () => {
         setSelectFirstBox(!selectFirstBox)
     }
