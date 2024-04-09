@@ -16,7 +16,7 @@ import useAxiosPublic from '../../hooks/useAxiosPublic';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import auth from '../../firebase/firebase.config';
-
+import { updateProfile } from "firebase/auth";
 const CreateProfile = ({ singleUserData }) => {
     const navigate = useNavigate()
     const [showPreviousBtn, setShowPreviousBtn] = useState(false)
@@ -60,7 +60,7 @@ const CreateProfile = ({ singleUserData }) => {
             });
             ImgUrl = res?.data?.data?.display_url || singleUserData?.image;
         }
-        handleUpdateProfile(auth.currentUser, {
+        updateProfile(auth.currentUser, {
             photoURL: ImgUrl
 
         })
@@ -78,7 +78,7 @@ const CreateProfile = ({ singleUserData }) => {
                     .then(res => {
                         console.log(allData);
                         toast.success('Successfully Updated')
-                        navigate('/')
+                        navigate('/verifyEmail')
                     })
                     .catch(err => {
                         console.log(err);

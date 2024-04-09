@@ -13,6 +13,9 @@ const RegisterForm = () => {
     const axiosPublic = useAxiosPublic()
     const [isChecked, setIsChecked] = useState(false)
     const [registering, setRegistering] = useState(false)
+    const [isUserNameError, setIsUserNameError] = useState(2)
+    const [isExist, setIsExist] = useState(false)
+    const [userName, setUserName] = useState('')
     const labelStyle = 'form-control w-full max-w-xs font-bold'
     const imgHostingKey = import.meta.env.VITE_IMG_HOSTING_KEY;
     const imgHostingApi = `https://api.imgbb.com/1/upload?key=${imgHostingKey}`
@@ -20,6 +23,11 @@ const RegisterForm = () => {
     const { register, handleSubmit, watch, reset, formState: { errors }, } = useForm()
 
     const onSubmit = async (data) => {
+        if (userName === '') {
+            return setIsUserNameError(3)
+        } else if (!isExist) {
+            return setIsUserNameError(1)
+        }
         setRegistering(true)
         if (!isChecked) {
             toast.error(isChecked)
@@ -29,13 +37,19 @@ const RegisterForm = () => {
         const name = data.name
         const email = data.email;
         const password = data.password;
+        const allData = {
+            name,
+            email,
+            password,
+            userName
+        }
         createUser(email, password)
             .then((res) => {
                 updateProfile(auth.currentUser, {
                     displayName: name
                 })
                     .then(() => {
-                        axiosPublic.post("/addUser", data)
+                        axiosPublic.post("/addUser", allData)
                             .then((res) => {
                                 toast.success('Successfully Registered')
                                 reset()
@@ -57,15 +71,58 @@ const RegisterForm = () => {
             })
         console.log(data);
     }
+
+    const handleUserName = (e) => {
+        setIsUserNameError(2)
+        e.preventDefault();
+        const pattern = /^\s*[a-z0-9._]+\s*$/i;
+        console.log(pattern.test(e.target.value));
+        if (e.target.value === '') {
+            setUserName(e.target.value)
+            setIsUserNameError(2)
+            return
+        }
+        else if (!pattern.test(e.target.value)) {
+            return setIsUserNameError(2)
+        } else {
+            setUserName(e.target.value)
+            axiosPublic.get(`/checkExistingUserName/${e.target.value}`)
+                .then(res => {
+                    if (res.data.isExist) {
+                        setIsUserNameError(1)
+                        setIsExist(false)
+                    }
+                    else {
+                        setIsUserNameError(0)
+                        setIsExist(true)
+                    }
+                })
+                .catch(err => {
+                    console.log(err.message);
+                })
+        }
+    }
     const handleCheckBox = (e) => {
         setIsChecked(e.target.checked)
     }
     return (
         <div className="w-full max-w-[500px] space-y-5">
-            <h2 className="text-3xl font-extrabold ">Sign up to Dribbble</h2>
-            <ul className="text-primary ml-5">
-                <li className="list-disc">User name has already been taken</li>
-            </ul>
+            <div className="relative pb-7">
+                <h2 className="text-3xl font-extrabold ">Sign up to Dribbble</h2>
+
+                <ul className="text-primary  absolute bottom-0 left-5 text-sm font-semibold">
+                    {
+                        isUserNameError === 3 && <li className="list-disc">Please take a username.</li>
+                    }
+                    {
+                        isUserNameError === 1 && <li className="list-disc">Username already has been taken</li>
+                    }
+                    {
+                        isUserNameError === 0 && <li className=" text-green-500 list-disc">User name is available</li>
+                    }
+                </ul>
+            </div>
+
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                 <div className="flex gap-5">
                     <label className={`${labelStyle}`}>
@@ -76,13 +133,16 @@ const RegisterForm = () => {
                             {...register("name", { required: true })}
                             type="text" placeholder="Name" className="input input-bordered w-full max-w-xs" />
                     </label>
-                    <label className={`${labelStyle}`}>
+                    <label className={`${labelStyle} relative`}>
                         <div className="label">
                             <span className={`${labelStyle}`}>User name</span>
                         </div>
                         <input
-                            {...register("userName", { required: true })}
+                            onChange={handleUserName}
+                            value={userName}
+                            required
                             type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+
                     </label>
                 </div>
                 <div className="flex gap-5">
